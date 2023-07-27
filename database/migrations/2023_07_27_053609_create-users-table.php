@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('note');
-            $table->timestamps();
+            $table->string('note')->nullable();
+            $table->timestamp('created_at')->useCurrent();
         });
     }
 
