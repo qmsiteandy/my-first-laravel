@@ -6,14 +6,7 @@
     <h2 class="mt-3 mb-5">Users</h2>
 
     <div class="d-flex justify-content-end">
-        <button
-        class="btn btn-success mb-3"
-        onclick="showAddModal()"
-        data-toggle="modal"
-        data-target="#addModal"
-        >
-        Add User
-        </button>
+        <button class="btn btn-success mb-3" onclick="showAddModal()" data-toggle="modal" data-target="#addModal" >Add User </button>
     </div>
 
     <!-- 使用 datatalbe 顯示商品資訊 -->
@@ -38,10 +31,10 @@
                     <th>{{$user->email}}</th>
                     <th>{{$user->note}}</th>
                     <th>
-                        <button id="showMod-{{$user->id}}" class="btn btn-primary" data-toggle="modal" data-target="#modifyModal">Modify</button>
+                        <button id="showMod-{{$user->id}}" class="btn btn-primary" data-toggle="modal" data-target="#modifyModal" onclick="showModModal({{$user}})">Modify</button>
                     </th>
                     <th>
-                        <button id="delete-{{$user->id}}" class="btn btn-danger">Delete</button>
+                        <button id="delete-{{$user->id}}" class="btn btn-danger" onclick="showDeleteModal({{$user}})">Delete</button>
                     </th>
                 </tr>
             @endforeach
@@ -78,202 +71,104 @@
     <!-- add user modal -->
     <div id="addModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addModalLabel">Add User</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeAddModal()">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addModalLabel">Add User</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeAddModal()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="add-form">
+                        <div class="form-group">
+                            <label for="add-name" class="col-form-label mr-3">Name</label>
+                            <input id="add-name" type="text" class="add-name" name="name" />
+                        </div>
+                        <div class="form-group">
+                            <label for="add-email" class="col-form-label mr-3">Email</label>
+                            <input id="add-email" type="email" class="add-email" name="email" />
+                        </div>
+                        <div class="form-group">
+                            <label for="add-note" class="col-form-label mr-3">Note</label>
+                            <textarea id="add-note" type="text" class="add-note" name="note" ></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="addSubmit()" >Submit</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeAddModal()" >Cancel</button>
+                </div>
             </div>
-            <div class="modal-body">
-                <form id="add-form">
-                    <div class="form-group">
-                        <label for="add-name" class="col-form-label mr-3">Name</label>
-                        <input id="add-name" type="text" class="add-name" name="name" />
-                    </div>
-                    <div class="form-group">
-                        <label for="add-email" class="col-form-label mr-3">Email</label>
-                        <input id="add-email" type="email" class="add-email" name="email" />
-                    </div>
-                    <div class="form-group">
-                        <label for="add-note" class="col-form-label mr-3">Note</label>
-                        <textarea id="add-note" type="text" class="add-note" name="note" ></textarea>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="addSubmit()" >Submit</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeAddModal()" >Cancel</button>
-            </div>
-        </div>
         </div>
     </div>
 
     <!-- Modify User modal -->
-    <!-- <div
-        id="modifyModal"
-        class="modal fade"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="modModalLabel"
-        aria-hidden="true"
-    >
+    <div id="modifyModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title" id="modModalLabel">修改課程資訊</h5>
-            <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close"
-                onclick="closeModifyModal()"
-            >
-                <span aria-hidden="true">&times;</span>
-            </button>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modModalLabel">Modify User</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModifyModal()" >
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="mod-form">
+                        <div class="form-group">
+                            <label for="mod-id" class="col-form-label mr-3">ID</label>
+                            <input id="mod-id" type="text" class="mod-id" name="id" disabled="disabled" />
+                        </div>
+                        <div class="form-group">
+                            <label for="mod-name" class="col-form-label mr-3">Name</label>
+                            <input id="mod-name" type="text" class="mod-name" name="name" />
+                        </div>
+                        <div class="form-group">
+                            <label for="mod-email" class="col-form-label mr-3">Email</label>
+                            <input id="mod-email" type="email" class="mod-email" name="email" />
+                        </div>
+                        <div class="form-group">
+                            <label for="mod-note" class="col-form-label mr-3">Note</label>
+                            <textarea id="mod-note" type="text" class="mod-note" name="note" ></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="modSubmit()" >Submit</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModifyModal()" >Cancel</button>
+                </div>
             </div>
-            <div class="modal-body">
-            <form id="mod-form">
-                <div class="form-group">
-                <label for="mod-name" class="col-form-label mr-3"
-                    >課程名稱:</label
-                >
-                <input
-                    id="mod-name"
-                    type="text"
-                    class="mod-name"
-                    name="name"
-                />
-                </div>
-                <div class="form-group">
-                <label for="mod-name" class="col-form-label mr-3"
-                    >教師編號:</label
-                >
-                <input
-                    id="mod-teacher"
-                    type="text"
-                    class="mod-teacher"
-                    name="teacher"
-                    disabled
-                />
-                </div>
-                <div class="form-group">
-                <label for="mod-description" class="col-form-label mr-3"
-                    >課程敘述:</label
-                >
-                <textarea
-                    id="mod-description"
-                    type="text"
-                    class="mod-description"
-                    name="description"
-                ></textarea>
-                </div>
-                <div class="form-group">
-                <label for="mod-price" class="col-form-label mr-3"
-                    >課程價格:</label
-                >
-                <input
-                    id="mod-price"
-                    type="text"
-                    class="mod-price"
-                    name="price"
-                />
-                </div>
-            </form>
-            </div>
-            <div class="modal-footer">
-            <button
-                type="button"
-                class="btn btn-primary"
-                onclick="modSubmit()"
-            >
-                確定修改
-            </button>
-            <button
-                type="button"
-                class="btn btn-secondary"
-                data-dismiss="modal"
-                onclick="closeModifyModal()"
-            >
-                取消
-            </button>
-            </div>
-        </div>
         </div>
     </div>
-    </div> -->
 
     <!-- 刪除課程 modal -->
-      <!-- <div
-        id="deleteModal"
-        class="modal fade"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="deleteModalLabel"
-        aria-hidden="true"
-      >
+    <div id="deleteModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="deleteModalLabel">刪除課程資訊</h5>
-              <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close"
-                onclick="closeDeleteModal()"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <form id="del-form">
-                <div class="form-group">
-                  <label for="del-name" class="col-form-label mr-3"
-                    >課程名稱:</label
-                  ><input
-                    id="del-name"
-                    type="text"
-                    class="del-name"
-                    name="name"
-                    disabled
-                  />
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modModalLabel">Delete User</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeDeleteModal()" >
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <div class="form-group">
-                  <label for="del-teacherId" class="col-form-label mr-3"
-                    >教師編號:</label
-                  ><input
-                    id="del-teacherId"
-                    type="text"
-                    class="del-teacherId"
-                    name="name"
-                    disabled
-                  />
+                <div class="modal-body">
+                    <form id="add-form">
+                        <div class="form-group">
+                            <label for="del-id" class="col-form-label mr-3">ID</label>
+                            <input id="del-id" type="text" class="del-id" name="id" disabled="disabled" />
+                        </div>
+                        <div class="form-group">
+                            <label for="del-name" class="col-form-label mr-3">Name</label>
+                            <input id="del-name" type="text" class="del-name" name="name" />
+                        </div>
+                    </form>
                 </div>
-              </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="deleteSubmit()" >Delete</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeDeleteModal()" >Cancel</button>
+                </div>
             </div>
-            <div class="modal-teacherId"></div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-primary"
-                onclick="deleteSubmit()"
-              >
-                確定刪除
-              </button>
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-dismiss="modal"
-                onclick="closeDeleteModal()"
-              >
-                取消
-              </button>
-            </div>
-          </div>
-        </div>
       </div>
-    </div> -->
+    </div>
 
 </div>
 <script>
@@ -301,7 +196,7 @@
             data: data,
             dataType: 'JSON',
             success:function(data){
-                alert("created");
+                alert("Create Successfully");
                 closeAddModal();
                 location.reload();
             },
@@ -313,56 +208,52 @@
     }
 
     // 顯示修改商品 modal, 並帶入當前商品資訊
-    function showModifyModal(course) {
-      course = JSON.parse(course);
-      $("#mod-name").val(course.name);
-      $("#mod-teacher").val(course.teacherId);
-      $("#mod-description").val(course.description);
-      $("#mod-price").val(course.price);
-
-      selectedId = course.id;
+    function showModModal(user) {
+      $("#mod-id").val(user.id);
+      $("#mod-name").val(user.name);
+      $("#mod-email").val(user.email);
+      $("#mod-note").val(user.note);
 
       $("#modifyModal").modal("show");
     }
 
     // 修改商品
     function modSubmit() {
-      let data = {
-        name: $("#mod-name").val(),
-        teacherId: $("#mod-teacher").val(),
-        description: $("#mod-description").val(),
-        price: $("#mod-price").val(),
-      };
+        let data = {
+            name: $("#mod-name").val(),
+            email: $("#mod-email").val(),
+            note: $("#mod-note").val(),
+        };
+        let id = $("#mod-id").val();
 
-      axios
-        .put(`/api/course/${selectedId}`, data)
-        .then((res) => {
-          if (res.status === 200) {
-            alert("修改成功！");
-            this.closeModifyModal();
-            location.reload();
-          }
-        })
-        .catch((error) => {
-          alert(error.response.data);
-          location.reload();
+        $.ajax({
+            url: "/api/user/" + id,
+            method: 'PUT',
+            data: data,
+            dataType: 'JSON',
+            success:function(data){
+                alert("Modify Successfully");
+                closeAddModal();
+                location.reload();
+            },
+            error: function(error) {
+                alert("系統發生錯誤，請洽管理員。");
+                location.reload();
+            }
         });
     }
 
     // 關閉修改商品 modal
     function closeModifyModal() {
-      $("#modifyModal").modal("hide");
+        $("#modifyModal").modal("hide");
     }
 
-    // 開啟刪除商品 modal
-    function openDeleteModal(course) {
-      course = JSON.parse(course);
+    // // 開啟刪除商品 modal
+    function showDeleteModal(user) {
+        $("#del-id").val(user.id);
+        $("#del-name").val(user.name);
 
-      $("#del-name").val(course.name);
-      $("#del-teacherId").val(course.teacherId);
-      $("#deleteModal").modal("show");
-
-      selectedId = course.id;
+        $("#deleteModal").modal("show");
     }
 
     // 關閉刪除商品 modal
@@ -371,20 +262,19 @@
     }
 
     function deleteSubmit() {
-      axios
-        .delete(`/api/course/${selectedId}`, {
-          data: { teacherId: $("#del-teacherId").val() },
-        })
-        .then((res) => {
-          if (res.status === 200) {
-            alert("刪除成功！");
-            this.closeDeleteModal();
-            location.reload();
-          }
-        })
-        .catch((error) => {
-          alert(error.response.data);
-          location.reload();
+        let id = $("#del-id").val();
+        $.ajax({
+            url: "/api/user/" + id,
+            method: 'DELETE',
+            success:function(data){
+                alert("Delete Successfully");
+                closeAddModal();
+                location.reload();
+            },
+            error: function(error) {
+                alert("系統發生錯誤，請洽管理員。");
+                location.reload();
+            }
         });
     }
   </script>
