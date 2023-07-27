@@ -24,10 +24,28 @@
                 <th>Name</th>
                 <th>Email</th>
                 <th>Note</th>
+                <th></th>
+                <th></th>
             </tr>
         </thead>
-        <tbody class="course-content">
+        <tbody class="user-content">
             <!-- user data foreach -->
+            <div class="row">
+            @foreach ($users as $user)
+                <tr>
+                    <th>{{$user->id}}</th>
+                    <th>{{$user->name}}</th>
+                    <th>{{$user->email}}</th>
+                    <th>{{$user->note}}</th>
+                    <th>
+                        <button id="showMod-{{$user->id}}" class="btn btn-primary" data-toggle="modal" data-target="#modifyModal">Modify</button>
+                    </th>
+                    <th>
+                        <button id="delete-{{$user->id}}" class="btn btn-danger">Delete</button>
+                    </th>
+                </tr>
+            @endforeach
+            </div>
         </tbody>
     </table>
 
